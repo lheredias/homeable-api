@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   validates :password, length: { minimum: 6 }, if: :password_digest_changed?
 
-  validates :first_name, :last_name, presence: true
+  validates :name, presence: true
 
   def invalidate_token
     update(token: nil, token_created_at: nil)
