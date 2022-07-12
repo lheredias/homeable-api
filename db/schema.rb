@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_12_031449) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_12_184235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -93,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_031449) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "token_created_at"
+    t.string "user_type"
     t.index ["token", "token_created_at"], name: "index_users_on_token_and_token_created_at"
   end
 
