@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_12_002742) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_12_003354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,64 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_002742) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "homeseekers", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_homeseekers_on_user_id"
+  end
+
+  create_table "landlords", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_landlords_on_user_id"
+  end
+
+  create_table "properties", force: :cascade do |t|
+    t.boolean "operation"
+    t.string "address"
+    t.integer "price"
+    t.string "type"
+    t.string "bedrooms"
+    t.string "bathrooms"
+    t.float "area"
+    t.boolean "pets"
+    t.text "about"
+    t.boolean "active"
+    t.bigint "landlord_id", null: false
+    t.bigint "saved_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["landlord_id"], name: "index_properties_on_landlord_id"
+    t.index ["saved_id"], name: "index_properties_on_saved_id"
+  end
+
+  create_table "saveds", force: :cascade do |t|
+    t.boolean "contacted"
+    t.boolean "favorite"
+    t.bigint "homeseeker_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["homeseeker_id"], name: "index_saveds_on_homeseeker_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.string "password_digest"
+    t.string "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_users_on_token", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "homeseekers", "users"
+  add_foreign_key "landlords", "users"
+  add_foreign_key "properties", "landlords"
+  add_foreign_key "properties", "saveds"
+  add_foreign_key "saveds", "homeseekers"
 end
