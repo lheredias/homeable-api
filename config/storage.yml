@@ -35,8 +35,8 @@ local:
 
 digital_ocean:
   service: S3
-  access_key_id: ENV['DIGITAL_OCEAN_ID']
-  secret_access_key: ENV['DIGITAL_OCEAN_KEY']
-  region: ENV['DIGITAL_OCEAN_REGION']
-  bucket: ENV['DIGITAL_OCEAN_BUCKET']
-  endpoint: ENV['DIGITAL_OCEAN_ENDPOINT']
+  access_key_id: "4QZE2HKZWQGCMLE6CYLF"
+  secret_access_key: "O1sLIwL2Frb0I9vr1PLr89AIP7yIau99ayu2MPheds0"
+  region: "sfo3"
+  bucket: "homeable-api"
+  endpoint: "https://sfo3.digitaloceanspaces.com"
