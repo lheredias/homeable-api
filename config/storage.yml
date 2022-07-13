@@ -33,10 +33,10 @@ local:
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
 
-digital_ocean:
-  service: S3
-  access_key_id: "4QZE2HKZWQGCMLE6CYLF"
-  secret_access_key: "O1sLIwL2Frb0I9vr1PLr89AIP7yIau99ayu2MPheds0"
-  region: "sfo3"
-  bucket: "homeable-api"
-  endpoint: "https://sfo3.digitaloceanspaces.com"
+# digital_ocean:
+#   service: S3
+#   access_key_id: "4QZE2HKZWQGCMLE6CYLF"
+#   secret_access_key: "O1sLIwL2Frb0I9vr1PLr89AIP7yIau99ayu2MPheds0"
+#   region: "sfo3"
+#   bucket: "homeable-api"
+#   endpoint: "https://sfo3.digitaloceanspaces.com"
