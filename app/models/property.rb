@@ -1,13 +1,20 @@
 class Property < ApplicationRecord
   belongs_to :landlord
-  belongs_to :saved
+
+  validates :address, presence: true
+  validates :about, presence: true
+  validates :price, numericality: { grater_than: 0 }
 
   validates :operation, presence: true, inclusion: { in: %w(sale rent),
     message: "is not a valid operation" }
+  enum operation: { rent: 0, sale: 1 }
 
-  validates :adress, presence: true
-  validates :salpriceary, numericality: { grater_than: 0 }
-  validates :user_type, presence: true, inclusion: { in: %w(landlord homeseeker),
-    message: "is not a valid user type" }
+  enum property_type: { apartment: 0, house: 1, brownfield: 2, greenfield: 3 }
+  validates :property_type, presence: true, inclusion: { in: %w(apartment house brownfield greenfield),
+    message: "is not a valid type of property" }
+
+  validates :bedrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :bathrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
+
 
 end

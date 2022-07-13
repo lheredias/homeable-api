@@ -25,6 +25,19 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /users/1/properties
+  def properties
+    if current_user.user_type == "landlord"
+      landlord = Landlord.where(user_id: current_user.id).first
+      properties  = landlord.properties
+    else
+      homeseeker = Homeseeker.where(user_id: current_user.id).first
+      properties  = homeseeker.properties
+    end
+
+    render json: properties
+  end
+
   # DELETE /profile
   delegate :destroy, to: :current_user
 
@@ -32,6 +45,6 @@ class UsersController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def user_params
-    params.permit(:email, :password, :name, :phone, :type)
+    params.permit(:email, :password, :name, :phone, :user_type)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_12_214731) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_12_184235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,31 +57,31 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_214731) do
   end
 
   create_table "properties", force: :cascade do |t|
-    t.boolean "operation"
+    t.integer "operation"
     t.string "address"
     t.integer "price"
-    t.integer "type"
-    t.integer "bedrooms"
-    t.integer "bathrooms"
+    t.integer "property_type"
+    t.integer "bedrooms", default: 0
+    t.integer "bathrooms", default: 0
     t.float "area"
-    t.boolean "pets"
+    t.boolean "pets", default: false
     t.text "about"
-    t.boolean "active"
+    t.boolean "active", default: true
     t.bigint "landlord_id", null: false
-    t.bigint "saved_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["landlord_id"], name: "index_properties_on_landlord_id"
-    t.index ["saved_id"], name: "index_properties_on_saved_id"
   end
 
   create_table "saveds", force: :cascade do |t|
-    t.boolean "contacted"
-    t.boolean "favorite"
+    t.boolean "contacted", default: false
+    t.boolean "favorite", default: false
     t.bigint "homeseeker_id", null: false
+    t.bigint "property_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["homeseeker_id"], name: "index_saveds_on_homeseeker_id"
+    t.index ["property_id"], name: "index_saveds_on_property_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,6 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_214731) do
     t.datetime "updated_at", null: false
     t.datetime "token_created_at"
     t.string "user_type"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["token", "token_created_at"], name: "index_users_on_token_and_token_created_at"
   end
 
@@ -102,6 +103,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_12_214731) do
   add_foreign_key "homeseekers", "users"
   add_foreign_key "landlords", "users"
   add_foreign_key "properties", "landlords"
-  add_foreign_key "properties", "saveds"
   add_foreign_key "saveds", "homeseekers"
+  add_foreign_key "saveds", "properties"
 end
