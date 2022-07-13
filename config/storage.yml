@@ -34,7 +34,7 @@ local:
 #   mirrors: [ amazon, google, microsoft ]
 
 digital_ocean:
-  service: S3
+  service: "S3"
   access_key_id: ENV['DIGITAL_OCEAN_ID']
   secret_access_key: ENV['DIGITAL_OCEAN_KEY']
   region: ENV['DIGITAL_OCEAN_REGION']
