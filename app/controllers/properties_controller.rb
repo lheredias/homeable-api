@@ -33,19 +33,49 @@ class PropertiesController < ApplicationController
     end
   end
 
-  # # PATCH/PUT /favorites/:id
-  # def update
-  #   if @favorite.update(favorite_params)
-  #     render json: @favorite
-  #   else
-  #     render json: { errors: @favorite.errors }, status: :unprocessable_entity
-  #   end
-  # end
+  # PATCH/PUT /properties/:id
+  def update
+    property = Property.find(params[:id])
+    if !property.nil?
+      if current_user.user_type == "landlord"
+        landlord = Landlord.find(property.landlord_id)
+        if landlord.user_id == current_user.id
+          if property.update(property_params)
+            render json: property
+          else
+            render json: { errors: property.errors }, status: :unprocessable_entity
+          end
+        else
+          render json: { error: 'user is not the property landlord' }, status: :not_found       
+        end
 
-  # # DELETE /favorites/:id
-  # def destroy
-  #   @favorite.destroy
-  # end
+      else
+        render json: { error: 'user is not a landlord' }, status: :not_found       
+      end
+    else
+      render json: { error: 'invalid property id' }, status: :not_found       
+    end
+
+  end
+
+  # DELETE /properties/:id
+  def destroy
+    property = Property.find(params[:id])
+    if !property.nil?
+      if current_user.user_type == "landlord"
+        landlord = Landlord.find(property.landlord_id)
+        if landlord.user_id == current_user.id
+          property.destroy
+        else
+          render json: { error: 'user is not the property landlord' }, status: :not_found       
+        end
+      else
+        render json: { error: 'user is not a landlord' }, status: :not_found       
+      end
+    else
+      render json: { error: 'invalid property id' }, status: :not_found       
+    end
+  end
 
   private
 

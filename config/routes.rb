@@ -5,13 +5,13 @@ Rails.application.routes.draw do
 
   resource :profile, except: %i[index create], controller: :users
 
-  resources :properties, only: %i[index show create]
+  resources :properties, only: %i[index show create update destroy]
 
-  resources :saveds, only: %i[index create]
+  resources :saveds, only: %i[index create update destroy]
 
   resources :users do
-    resources :properties, only: %i[create]
+    # resources :properties, only: %i[get]
     # /games/:id/add_genre
-    get "properties", on: :member
+    get "listed_properties", on: :member
   end
 end

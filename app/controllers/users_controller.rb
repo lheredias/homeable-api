@@ -25,17 +25,16 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/1/properties
-  def properties
+  # GET /users/1/listed_properties
+  def listed_properties
     if current_user.user_type == "landlord"
       landlord = Landlord.where(user_id: current_user.id).first
       properties  = landlord.properties
+      render json: properties
     else
-      homeseeker = Homeseeker.where(user_id: current_user.id).first
-      properties  = homeseeker.properties
+      render json: { error: 'user is not a landlord' }, status: :not_found       
     end
 
-    render json: properties
   end
 
   # DELETE /profile
