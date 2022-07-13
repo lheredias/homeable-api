@@ -5,7 +5,7 @@ module PropertiesHelper
     end
 
     if params[:operation]
-      properties = properties.where(operation:params[:operation].downcase())
+      properties = properties.where(operation:params[:operation])
     end
 
     if params[:property_type]

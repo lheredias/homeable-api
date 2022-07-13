@@ -16,5 +16,5 @@ class Property < ApplicationRecord
   validates :bedrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :bathrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-
+  has_one_attached :photo
 end
