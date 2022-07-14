@@ -29,7 +29,7 @@ class PropertiesController < ApplicationController
   def create
     property = Property.new(property_params)
     if current_user.user_type == "landlord"
-      if params[:property][:photo]
+      if !params[:property][:photo].nil?
         params[:property][:photo].each do |file|
           photo = Cloudinary::Uploader.upload(file)
           photo = Photo.create(url:photo['url'])
