@@ -24,6 +24,19 @@ class PropertiesController < ApplicationController
   def create
     property = Property.new(property_params)
     if current_user.user_type == "landlord"
+      p "===================================="
+      puts params[:property][:photo]
+      p "===================================="
+
+      params[:property][:photo].each do |file|
+        photo = Cloudinary::Uploader.upload(file)
+        photo = Photo.create(url:photo['url'])
+        property.photos << photo
+        # photo = Photo.new(url:photo['url'])
+        # photo.save
+      end
+      # photo = Cloudinary::Uploader.upload(params[:property][:photo])
+      # property.photo = photo['url']
       landlord = Landlord.where(user_id: current_user.id).first
       property.landlord_id = landlord.id
       if property.save
@@ -85,7 +98,7 @@ class PropertiesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def property_params
       params.require(:property).permit(:operation, :address, :price, 
-        :property_type, :bedrooms, :bathrooms, :area, :pets, :about, :active, :photo)
+        :property_type, :bedrooms, :bathrooms, :area, :pets, :about, :active)
     end
 
 end
