@@ -3,8 +3,13 @@ class PropertiesController < ApplicationController
   # GET /properties
   include PropertiesHelper
   def index
-    properties = Property.all
-    
+    properties = Property.order(:updated_at).page params[:page]
+    # properties = Property.all
+    # if params[:limit].empty?
+    #   params[:limit] = 1
+    # end
+    # properties = Property.limit(params[:limit]).offset(params[:offset])
+
     properties = query_filter(properties)
 
     render json: properties
@@ -24,10 +29,7 @@ class PropertiesController < ApplicationController
   def create
     property = Property.new(property_params)
     if current_user.user_type == "landlord"
-      p "===================================="
-      puts params[:property][:photo]
-      p "===================================="
-
+     
       params[:property][:photo].each do |file|
         photo = Cloudinary::Uploader.upload(file)
         photo = Photo.create(url:photo['url'])
