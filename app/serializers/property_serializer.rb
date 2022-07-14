@@ -1,8 +1,8 @@
 class PropertySerializer < ActiveModel::Serializer
   # include Rails.application.routes.url_helpers
 
-  attributes :id, :address, :price, :about, :operation, :property_type, :bedrooms, :bathrooms, :area, :pets, :active, :photos
-  
+  attributes :id, :address, :price, :maintenance, :about, :operation, :property_type, :bedrooms, :bathrooms, :area, :pets, :active, :photos
+
   def photos
     ActiveModel::SerializableResource.new(object.photos,  each_serializer: PhotoSerializer)
   end

@@ -18,5 +18,16 @@ class Property < ApplicationRecord
 
   has_many :photos
   paginates_per 10
+
+  validates :maintenance, presence: true, numericality: { greater_than: 0 }, if: proc { rent? }
+
+  # validates :maintenance, presence: true, if: proc { self.operation == "rent" }
+
+  # validate :maintenance_validator
+
+  # def maintenance_validator
+  #   errors.add(:maintenance, "is invalid") unless Property.exists?(self.property_id)
+  # end
+
   # has_one_attached :photo
 end
