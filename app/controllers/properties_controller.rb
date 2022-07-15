@@ -3,25 +3,28 @@ class PropertiesController < ApplicationController
   # GET /properties
   include PropertiesHelper
   def index
+    # Get properties in order
     properties = Property.order(:updated_at)
-    # properties = Property.all
-    # if params[:limit].empty?
-    #   params[:limit] = 1
-    # end
-    # properties = Property.limit(params[:limit]).offset(params[:offset])
-
+  
+    # Apply filters
     properties = query_filter(properties)
+
+    # Get results counter
     count = properties.count
-    properties = properties.page params[:page]
+
+    # Apply pagination
+    properties = properties.page params[:page] 
+
+    # Extract useful values from pagination
     current = properties.page(params[:page]).current_page
     total = properties.page(params[:page]).total_pages
     limit = properties.page(params[:page]).limit_value
     output = {
       info: {
         count: count,
-        current:  properties.page(params[:page]).current_page,
+        current: properties.page(params[:page]).current_page,
         previous: (current > 1 ? (current - 1) : nil),
-        next:     (current >= total ? nil : (current + 1)),
+        next: (current >= total ? nil : (current + 1)),
         items_per_page: limit,
         pages: total
       },
