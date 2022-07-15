@@ -14,7 +14,7 @@ class PropertiesController < ApplicationController
     current = properties.page(params[:page]).current_page
     total = properties.page(params[:page]).total_pages
     limit = properties.page(params[:page]).limit_value
-    output = [
+    output = {
       info: {
         count: Property.count,
         current:  properties.page(params[:page]).current_page,
@@ -24,7 +24,7 @@ class PropertiesController < ApplicationController
         pages: total
       },
       results: properties
-    ]
+    }
     render json: output
   end
 
