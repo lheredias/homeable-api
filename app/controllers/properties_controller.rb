@@ -16,7 +16,7 @@ class PropertiesController < ApplicationController
     limit = properties.page(params[:page]).limit_value
     output = {
       info: {
-        count: Property.count,
+        count: properties.count,
         current:  properties.page(params[:page]).current_page,
         previous: (current > 1 ? (current - 1) : nil),
         next:     (current >= total ? nil : (current + 1)),
