@@ -4,7 +4,7 @@ class PropertiesController < ApplicationController
   include PropertiesHelper
   def index
     # Get properties in order
-    properties = Property.order(:updated_at)
+    properties = Property.order(updated_at: :desc)
   
     # Apply filters
     properties = query_filter(properties)
