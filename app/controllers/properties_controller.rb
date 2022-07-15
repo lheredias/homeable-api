@@ -11,8 +11,21 @@ class PropertiesController < ApplicationController
     # properties = Property.limit(params[:limit]).offset(params[:offset])
 
     properties = query_filter(properties)
-
-    render json: properties
+    current = properties.page(params[:page]).current_page
+    total = properties.page(params[:page]).total_pages
+    limit = properties.page(params[:page]).limit_value
+    output = [
+      info: {
+        count: Property.count,
+        current:  properties.page(params[:page]).current_page,
+        previous: (current > 1 ? (current - 1) : nil),
+        next:     (current >= total ? nil : (current + 1)),
+        items_per_page: limit,
+        pages: total
+      },
+      results: properties
+    ]
+    render json: output
   end
 
   # GET /properties/1
