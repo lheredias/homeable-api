@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
-  skip_before_action :require_login!, only: %i[index show]
+  skip_before_action :require_login!, only: %i[index show list_addresses]
   # GET /properties
   include PropertiesHelper
   def index
@@ -111,6 +111,20 @@ class PropertiesController < ApplicationController
       end
     else
       render json: { error: 'invalid property id' }, status: :not_found       
+    end
+  end
+
+  def list_addresses
+    if params[:address] && !params[:address].empty?
+      properties = Property.all
+      addresses = properties.where("address ILIKE ?", "%"+ params[:address] + "%").pluck(:address)
+      if addresses.empty?
+        head :no_content
+      else
+        render json: addresses
+      end
+    else
+      head :no_content
     end
   end
 
