@@ -119,7 +119,7 @@ class PropertiesController < ApplicationController
       properties = Property.all
       addresses = properties.where("address ILIKE ?", "%"+ params[:address] + "%").pluck(:address)
       if addresses.empty?
-        head :no_content
+        render json: addresses
       else
         render json: addresses.uniq
       end
