@@ -121,7 +121,7 @@ class PropertiesController < ApplicationController
       if addresses.empty?
         head :no_content
       else
-        render json: addresses
+        render json: addresses.uniq
       end
     else
       head :no_content
