@@ -1,8 +1,5 @@
 module PropertiesHelper
   def query_filter(properties)
-    if params[:limit] && !params[:limit].empty?
-      properties = properties.limit(params[:limit])
-    end
 
     if params[:address] && !params[:address].empty?
       properties = properties.where("address ILIKE ?", "%"+ params[:address] +"%")

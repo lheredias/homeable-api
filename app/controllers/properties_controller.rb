@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
-  skip_before_action :require_login!, only: %i[index show list_addresses]
+  skip_before_action :require_login!, only: %i[index show list_addresses front_properties]
   # GET /properties
   include PropertiesHelper
   def index
@@ -128,6 +128,17 @@ class PropertiesController < ApplicationController
     end
   end
 
+  def front_properties
+    properties = Property.order(updated_at: :desc)
+    if params[:limit] && !params[:limit].empty?
+      properties = properties.limit(params[:limit])
+    else
+      properties = properties.limit(3)
+    end
+
+    render json: properties
+
+  end
   private
 
     # Only allow a list of trusted parameters through.

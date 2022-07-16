@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   delete  '/logout'   => 'sessions#destroy'
   post    '/signup'   => 'users#create'
   get    '/addresses'   => 'properties#list_addresses'
-
+  get '/front_properties' => 'properties#front_properties'
   resource :profile, except: %i[index create], controller: :users
 
   resources :properties, only: %i[index show create update destroy]
