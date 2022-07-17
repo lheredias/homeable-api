@@ -7,7 +7,9 @@ class PropertiesController < ApplicationController
     # Get properties in order
     uri = "https://homeable-api.herokuapp.com/properties/"
     properties = Property.order(updated_at: :desc)
-  
+    
+    # List only active properties for filtering purposes
+    properties = properties.where(active: true)
     # Apply filters
     properties = query_filter(properties)
 
