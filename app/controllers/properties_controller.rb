@@ -2,8 +2,10 @@ class PropertiesController < ApplicationController
   skip_before_action :require_login!, only: %i[index show list_addresses front_properties]
   # GET /properties
   include PropertiesHelper
+
   def index
     # Get properties in order
+    uri = "https://homeable-api.herokuapp.com/properties/"
     properties = Property.order(updated_at: :desc)
   
     # Apply filters
@@ -16,21 +18,20 @@ class PropertiesController < ApplicationController
     properties = properties.page params[:page] 
 
     # Extract useful values from pagination
-    current = properties.page(params[:page]).current_page
-    total = properties.page(params[:page]).total_pages
-    limit = properties.page(params[:page]).limit_value
-    output = {
-      info: {
-        count: count,
-        current: properties.page(params[:page]).current_page,
-        previous: (current > 1 ? (current - 1) : nil),
-        next: (current >= total ? nil : (current + 1)),
-        items_per_page: limit,
-        pages: total
-      },
-      results: properties
-    }
-    render json: output
+    current_page = properties.page(params[:page]).current_page
+    pages = properties.page(params[:page]).total_pages
+    items_per_page = properties.page(params[:page]).limit_value
+
+    pagination = pagination(
+      count, 
+      current_page, 
+      (current_page > 1) ? uri + (current_page - 1).to_s : nil, 
+      current_page >= pages ? nil : uri + (current_page + 1).to_s, 
+      items_per_page, 
+      pages
+    )
+      
+    render meta: pagination, adapter: :json, json: properties
   end
 
   # GET /properties/1

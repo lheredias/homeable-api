@@ -44,4 +44,15 @@ module PropertiesHelper
 
     properties
   end
+  
+  def pagination(count, current_page, previous_page, next_page, items_per_page, pages)
+    { 
+      count: count,
+      current: current_page,
+      previous: previous_page,
+      next: next_page,
+      items_per_page: items_per_page,
+      pages: pages 
+    } 
+ end
 end

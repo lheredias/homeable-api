@@ -17,7 +17,7 @@ class Property < ApplicationRecord
   validates :bathrooms, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   has_many :photos
-  paginates_per 50
+  paginates_per 5
 
   validates :maintenance, presence: true, numericality: { greater_than: 0 }, if: proc { rent? }
 
