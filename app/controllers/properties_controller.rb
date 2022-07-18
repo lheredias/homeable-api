@@ -142,6 +142,17 @@ class PropertiesController < ApplicationController
     render json: properties
 
   end
+
+   # GET /listed_properties
+  def listed_properties
+    if current_user.user_type == "landlord"
+      landlord = Landlord.where(user_id: current_user.id).first
+      properties  = landlord.properties
+      render json: properties
+    else
+      render json: { error: 'user is not a landlord' }, status: :not_found       
+    end
+  end
   private
 
     # Only allow a list of trusted parameters through.

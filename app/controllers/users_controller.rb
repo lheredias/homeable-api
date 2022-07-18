@@ -25,18 +25,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/1/listed_properties
-  def listed_properties
-    if current_user.user_type == "landlord"
-      landlord = Landlord.where(user_id: current_user.id).first
-      properties  = landlord.properties
-      render json: properties
-    else
-      render json: { error: 'user is not a landlord' }, status: :not_found       
-    end
-
-  end
-
   # DELETE /profile
   delegate :destroy, to: :current_user
 
