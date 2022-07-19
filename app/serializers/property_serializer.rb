@@ -3,6 +3,7 @@ class PropertySerializer < ActiveModel::Serializer
 
   attributes :id, :address, :price, :maintenance, :about, :latitude, :longitude, :operation, :property_type, :bedrooms, :bathrooms, :area, :pets, :active, :photos
   has_many :photos
+  has_one :landlord
 
   # def photos
   #   ActiveModel::SerializableResource.new(object.photos,  each_serializer: PhotoSerializer)
