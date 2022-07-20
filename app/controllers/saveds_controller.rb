@@ -36,7 +36,7 @@ class SavedsController < ApplicationController
       if current_user.user_type == "homeseeker"
         homeseeker = Homeseeker.find(saved.homeseeker_id)
         if homeseeker.user_id == current_user.id
-          if saved.update(contacted: params[:contacted], favorite: params[:favorite])
+          if saved.update(saved_update_params)
             # property = Property.find(saved.property_id)
             render json: saved
           else
@@ -75,6 +75,10 @@ class SavedsController < ApplicationController
   end
 
   private
+  def saved_update_params
+    params.require(:saved).permit(:contacted, :favorite)
+  end
+
   def saved_params
     params.require(:saved).permit(:contacted, :favorite, :property_id)
   end
