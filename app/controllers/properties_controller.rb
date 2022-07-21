@@ -5,7 +5,7 @@ class PropertiesController < ApplicationController
 
   def index
     # Get properties in order
-    uri = "https://homeable-api.herokuapp.com/properties/"
+    uri = "https://homeable-api.herokuapp.com/properties?page="
     properties = Property.order(updated_at: :desc)
     
     # List only active properties for filtering purposes
